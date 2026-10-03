@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mayank Jain · Backend Engineer, Payments & AI</title>
+  <meta name="description" content="Tech lead with 5 years taking a US fintech platform from first commit to real money: backend, payments, cloud, security and AI in production.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mayank Jain · Backend Engineer, Payments & AI">
+  <meta property="og:description" content="5 years building a US fintech platform: payments, cloud, security and AI in production. Try to break my systems.">
+  <meta property="og:url" content="https://mayankjainllrl.github.io/">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#07090f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2307090f'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' font-weight='700' text-anchor='middle' fill='url(%23g)'%3EMJ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg-2: #0c1018;
+      --panel: rgba(18, 23, 34, 0.72);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hi: rgba(255, 255, 255, 0.16);
+      --text: #e8ecf3;
+      --muted: #8b95a7;
+      --cyan: #22d3ee;
+      --violet: #a78bfa;
+      --green: #34d399;
+      --red: #f87171;
+      --amber: #fbbf24;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --mx: 50%;
+      --my: 20%;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background:
+        radial-gradient(600px circle at var(--mx) var(--my), rgba(34, 211, 238, 0.07), transparent 60%),
+        radial-gradient(900px circle at 85% 0%, rgba(167, 139, 250, 0.10), transparent 55%);
+    }
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    button { font-family: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    .mono { font-family: var(--mono); }
+    .grad {
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* nav */
+    nav {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 50;
+      display: flex; gap: 4px; padding: 6px;
+      background: rgba(12, 16, 24, 0.7); backdrop-filter: blur(14px);
+      border: 1px solid var(--border); border-radius: 999px;
+    }
+    nav a {
+      color: var(--muted); font-size: 0.88rem; font-weight: 500;
+      padding: 7px 14px; border-radius: 999px; transition: all .2s; white-space: nowrap;
+    }
+    nav a:hover, nav a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+
+    /* hero */
+    .hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px;
+      align-items: center; padding-top: 80px;
+    }
+    .status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
+      background: var(--panel);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.6); } 70% { box-shadow: 0 0 0 10px rgba(52,211,153,0); } 100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); } }
+    .hero h1 { font-size: clamp(2.6rem, 5.5vw, 4.2rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; margin: 22px 0 18px; }
+    .rotator { display: inline-block; min-width: 2ch; }
+    .rotator::after { content: "▌"; color: var(--cyan); animation: blink 1s steps(1) infinite; margin-left: 2px; font-weight: 400; -webkit-text-fill-color: var(--cyan); }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero p.lead { font-size: 1.12rem; color: var(--muted); max-width: 560px; }
+    .hero p.lead b { color: var(--text); font-weight: 600; }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.95rem;
+      border: 1px solid var(--border-hi); color: var(--text); background: rgba(255,255,255,0.03);
+      transition: transform .15s, border-color .2s, background .2s; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: var(--cyan); }
+    .btn.primary { background: linear-gradient(90deg, var(--cyan), var(--violet)); color: #07090f; border: none; }
+
+    /* terminal */
+    .terminal {
+      background: rgba(10, 13, 20, 0.9); border: 1px solid var(--border-hi); border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(34,211,238,0.08);
+      overflow: hidden; font-family: var(--mono); font-size: 0.84rem;
+    }
+    .term-bar { display: flex; gap: 7px; padding: 12px 14px; border-bottom: 1px solid var(--border); align-items: center; }
+    .term-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .term-bar span { margin-left: 10px; color: var(--muted); font-size: 0.78rem; }
+    .term-body { padding: 18px 18px 22px; min-height: 380px; max-height: 460px; overflow-y: auto; white-space: pre-wrap; line-height: 1.75; cursor: text; }
+    .t-prompt { color: var(--green); }
+    .t-key { color: var(--violet); }
+    .t-str { color: var(--amber); }
+    .t-dim { color: var(--muted); }
+    .cursor { display: inline-block; width: 8px; height: 1em; background: var(--cyan); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+
+    /* stats */
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 20px 0 40px; }
+    .stat { background: var(--bg-2); padding: 26px 20px; }
+    .stat b { display: block; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 6px; }
+    .stat p { color: var(--muted); font-size: 0.85rem; line-height: 1.45; }
+
+    /* sections */
+    section { padding: 110px 0 40px; }
+    .kicker { font-family: var(--mono); color: var(--cyan); font-size: 0.85rem; letter-spacing: 0.05em; }
+    h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin: 10px 0 14px; line-height: 1.15; }
+    .sub { color: var(--muted); max-width: 680px; font-size: 1.05rem; }
+    .panel {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 18px;
+      backdrop-filter: blur(10px); transition: border-color .25s, transform .25s;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+    .chips span { font-family: var(--mono); font-size: 0.72rem; padding: 3px 9px; border-radius: 6px; background: rgba(167,139,250,0.1); color: var(--violet); border: 1px solid rgba(167,139,250,0.2); }
+
+    /* services */
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .card { padding: 24px; }
+    .card:hover { border-color: rgba(34,211,238,0.4); transform: translateY(-3px); }
+    .card .ic { font-size: 1.4rem; }
+    .card h4 { margin: 10px 0 8px; font-size: 1.05rem; }
+    .card p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
+    .card .chips span { background: rgba(34,211,238,0.08); color: var(--cyan); border-color: rgba(34,211,238,0.2); }
+
+    /* lab */
+    .lab { margin-top: 40px; padding: 10px; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 12px 16px; border-radius: 12px; cursor: pointer;
+      background: transparent; border: 1px solid transparent; color: var(--muted);
+      font-size: 0.92rem; font-weight: 600; text-align: left; transition: all .2s;
+    }
+    .tab small { display: block; font-family: var(--mono); font-weight: 400; font-size: 0.72rem; color: var(--muted); opacity: .8; }
+    .tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .tab.on { color: var(--text); background: rgba(34,211,238,0.07); border-color: rgba(34,211,238,0.35); }
+    .lab-body { padding: 22px 22px 24px; }
+    .exp { display: none; animation: fade .35s ease; }
+    .exp.on { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .exp-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 22px; }
+    .exp-head h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .exp-head p { color: var(--muted); font-size: 0.95rem; }
+    .story { border-left: 2px solid var(--violet); padding: 2px 0 2px 16px; font-size: 0.9rem; color: var(--muted); }
+    .story b { display: block; color: var(--violet); font-family: var(--mono); font-size: 0.75rem; font-weight: 500; margin-bottom: 4px; letter-spacing: .04em; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+    .action {
+      font-family: var(--mono); font-weight: 700; font-size: 0.95rem; padding: 12px 22px; border-radius: 12px; border: none; cursor: pointer;
+      background: linear-gradient(90deg, var(--cyan), var(--violet)); color: #07090f; transition: transform .08s;
+    }
+    .action:active { transform: scale(0.95); }
+    .ghost { background: none; border: 1px solid var(--border-hi); color: var(--muted); font-family: var(--mono); font-size: 0.82rem; cursor: pointer; padding: 10px 14px; border-radius: 10px; }
+    .ghost:hover { color: var(--text); border-color: var(--cyan); }
+    .seg { display: inline-flex; border: 1px solid var(--border-hi); border-radius: 10px; overflow: hidden; }
+    .seg button { background: none; border: none; color: var(--muted); padding: 9px 14px; font-size: 0.82rem; cursor: pointer; font-family: var(--mono); }
+    .seg button.on { background: rgba(34,211,238,0.12); color: var(--cyan); }
+    .seg-label { font-size: 0.8rem; color: var(--muted); margin-right: 6px; font-family: var(--mono); }
+    .field { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+    .field input { width: 110px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-hi); border-radius: 8px; color: var(--text); padding: 9px 10px; font-family: var(--mono); font-size: 0.9rem; }
+    .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .lane { border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: rgba(0,0,0,0.25); min-width: 0; }
+    .lane-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; gap: 8px; }
+    .lane-head h4 { font-size: 0.95rem; }
+    .lane-head small { font-family: var(--mono); color: var(--muted); font-size: 0.72rem; }
+    .big { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+    .bad .big { color: var(--red); }
+    .good .big { color: var(--green); }
+    .log { font-family: var(--mono); font-size: 0.76rem; height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+    .log div { padding: 5px 9px; border-radius: 6px; animation: fade .25s ease; word-break: break-word; }
+    .ok { background: rgba(52,211,153,0.1); color: var(--green); }
+    .err { background: rgba(248,113,113,0.1); color: var(--red); }
+    .warn { background: rgba(251,191,36,0.1); color: var(--amber); }
+    .calm { background: rgba(255,255,255,0.04); color: var(--muted); }
+    .empty { color: var(--muted); }
+    .verdict { margin-top: 16px; font-size: 0.92rem; color: var(--muted); min-height: 1.5em; }
+    .verdict b { color: var(--text); }
+    .doc {
+      width: 100%; min-height: 150px; resize: vertical; background: #f4f1ea; color: #1d1d1f; border: none; border-radius: 10px;
+      padding: 16px 18px; font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; line-height: 1.6;
+    }
+    .sig { font-family: var(--mono); font-size: 0.76rem; word-break: break-all; color: var(--muted); margin-top: 10px; }
+    .sig b { color: var(--text); font-weight: 500; }
+    .badge-state { display: inline-block; font-family: var(--mono); font-size: 0.82rem; padding: 8px 12px; border-radius: 8px; margin-top: 12px; }
+    table.split { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.8rem; }
+    table.split td { padding: 6px 4px; border-bottom: 1px dashed var(--border); }
+    table.split td:last-child { text-align: right; }
+    table.split tr.total td { border-bottom: none; font-weight: 700; padding-top: 10px; }
+
+    .cells { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .cells div { height: 54px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+      font-family: var(--mono); font-size: 0.68rem; display: grid; place-items: center; text-align: center; color: var(--muted); transition: all .25s; }
+    .cells .hit { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.4); color: var(--green); }
+    .cells .miss { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.35); color: var(--red); }
+    .term-input { display: flex; gap: 8px; align-items: center; }
+    .term-input input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: var(--text); font: inherit; caret-color: var(--cyan); }
+    .term-body a { color: var(--cyan); text-decoration: underline; }
+
+    .try { margin: 14px 0 0; padding-left: 0; list-style: none; counter-reset: t; display: grid; gap: 6px; }
+    .try li { counter-increment: t; font-size: 0.9rem; color: var(--muted); display: flex; gap: 10px; align-items: baseline; }
+    .try li::before { content: counter(t); flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+      font-family: var(--mono); font-size: 0.7rem; color: #07090f; background: var(--cyan); }
+    .try b, .exp-head p b { color: var(--text); }
+    .status { margin-top: 12px; padding: 14px 16px; border-radius: 10px; font-size: 0.92rem; line-height: 1.5;
+      background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); }
+    .status.ok { background: rgba(52,211,153,0.1); color: var(--green); border-color: rgba(52,211,153,0.3); }
+    .status.err { background: rgba(248,113,113,0.1); color: var(--red); border-color: rgba(248,113,113,0.3); }
+    .status.warn { background: rgba(251,191,36,0.1); color: var(--amber); border-color: rgba(251,191,36,0.3); }
+    .lane .status { margin-top: 0; min-height: 76px; }
+    .fp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+    .fp div { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(0,0,0,0.25); min-width: 0; }
+    .fp span { display: block; font-size: 0.72rem; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; }
+    .fp code { font-family: var(--mono); font-size: 0.8rem; color: var(--text); word-break: break-all; }
+    .fp code.match { color: var(--green); } .fp code.nomatch { color: var(--red); }
+    .ghost.pick.on { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,0.08); }
+    .action.alt { background: linear-gradient(90deg, var(--amber), var(--red)); }
+    .action:disabled { opacity: .6; cursor: wait; }
+    /* pipeline */
+    .pipeline { margin-top: 40px; padding: 34px 28px; }
+    .nodes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; position: relative; }
+    .nodes::before { content: ""; position: absolute; top: 34px; left: 8%; right: 8%; height: 2px; background: var(--border-hi); }
+    .packet {
+      position: absolute; top: 29px; left: 8%; width: 12px; height: 12px; border-radius: 50%;
+      background: var(--cyan); box-shadow: 0 0 16px var(--cyan), 0 0 30px var(--cyan);
+      transition: left .7s cubic-bezier(.6,.05,.3,1); z-index: 2;
+    }
+    .node { text-align: center; position: relative; z-index: 1; }
+    .node .ic {
+      width: 68px; height: 68px; margin: 0 auto 12px; border-radius: 18px;
+      display: grid; place-items: center; font-size: 1.6rem;
+      background: var(--bg-2); border: 1px solid var(--border-hi); transition: all .3s;
+    }
+    .node.on .ic { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34,211,238,0.12), 0 0 30px rgba(34,211,238,0.25); transform: translateY(-4px); }
+    .node h5 { font-size: 0.85rem; font-weight: 600; }
+    .node small { display: block; color: var(--muted); font-size: 0.72rem; font-family: var(--mono); }
+    .caption { margin-top: 28px; padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.25); font-size: 0.95rem; min-height: 60px; }
+    .caption b { color: var(--cyan); font-family: var(--mono); font-weight: 500; margin-right: 8px; }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+    .facts div { font-size: 0.85rem; color: var(--muted); border-left: 2px solid var(--violet); padding-left: 12px; }
+    .facts b { display: block; color: var(--text); font-size: 0.95rem; }
+    .now {
+      margin-top: 22px; display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 14px;
+      background: linear-gradient(90deg, rgba(52,211,153,0.08), rgba(34,211,238,0.04)); border: 1px solid rgba(52,211,153,0.25);
+    }
+    .now .dot { margin-top: 8px; flex-shrink: 0; }
+    .now p { font-size: 0.95rem; color: var(--muted); }
+    .now p b { color: var(--text); }
+
+    /* journey */
+    .years { display: flex; gap: 0; margin-top: 40px; position: relative; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+    .years::-webkit-scrollbar { display: none; }
+    .yr {
+      flex: 1; min-width: 110px; background: none; border: none; cursor: pointer; padding: 14px 10px 16px; text-align: left;
+      color: var(--muted); position: relative; transition: color .2s;
+    }
+    .yr b { display: block; font-family: var(--mono); font-size: 1.15rem; font-weight: 700; }
+    .yr span { font-size: 0.78rem; }
+    .yr::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: transparent; transition: background .25s; }
+    .yr:hover { color: var(--text); }
+    .yr.on { color: var(--text); }
+    .yr.on b { color: var(--cyan); }
+    .yr.on::after { background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+    .chapter { display: none; padding-top: 30px; animation: fade .4s ease; }
+    .chapter.on { display: grid; grid-template-columns: 0.9fr 1.3fr; gap: 36px; }
+    .ch-year { font-family: var(--mono); font-size: 4.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+    .ch-left h3 { font-size: 1.5rem; margin: 14px 0 10px; line-height: 1.25; }
+    .ch-left > p { color: var(--muted); }
+    .ch-when { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .hl { font-family: var(--mono); font-size: 0.78rem; color: var(--cyan); letter-spacing: .05em; padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px dashed var(--border-hi); }
+    .ch-metrics { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 22px; }
+    .ch-left { position: sticky; top: 90px; align-self: start; }
+    .ch-metrics div { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+    .ch-metrics b { font-size: 1.05rem; display: block; }
+    .ch-metrics span { font-size: 0.82rem; color: var(--muted); }
+    .ch-right { padding: 24px 26px; }
+    .ch-group + .ch-group { margin-top: 20px; }
+    .ch-group h5 { font-family: var(--mono); font-size: 0.75rem; color: var(--violet); letter-spacing: .06em; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+    .ch-group ul { list-style: none; }
+    .ch-group li { position: relative; padding-left: 18px; margin-bottom: 8px; font-size: 0.94rem; }
+    .ch-group li::before { content: "▹"; position: absolute; left: 0; color: var(--cyan); }
+    .ch-group li b { font-weight: 600; }
+    .ch-nav { display: flex; justify-content: space-between; margin-top: 18px; }
+    .live-tag { font-family: var(--mono); font-size: 0.68rem; color: #07090f; background: var(--green); padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; font-weight: 700; }
+
+    /* trust */
+    .trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .trust .card h4 { font-size: 1.08rem; margin-top: 0; }
+    .trust .num { font-family: var(--mono); color: var(--cyan); font-size: 0.8rem; }
+    .quote { margin-top: 18px; padding: 30px 32px; text-align: left; }
+    .quote p { font-size: 1.25rem; line-height: 1.5; font-weight: 600; }
+    .quote p span { color: var(--muted); font-weight: 400; }
+
+    /* code */
+    .split2 { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; margin-top: 40px; align-items: start; }
+    .split2 .panel { padding: 28px; }
+    .split2 h3 { font-size: 1.4rem; margin-bottom: 10px; }
+    .split2 ul { margin: 16px 0 0 18px; color: var(--muted); }
+    .split2 li { margin-bottom: 8px; }
+    .split2 li b { color: var(--text); font-weight: 600; }
+    pre.code {
+      font-family: var(--mono); font-size: 0.8rem; line-height: 1.7; padding: 22px; overflow-x: auto;
+      background: rgba(10,13,20,0.9); border: 1px solid var(--border-hi); border-radius: 14px;
+    }
+    .c-k { color: var(--violet); } .c-f { color: var(--cyan); } .c-c { color: #5b6577; font-style: italic; }
+
+    /* contact */
+    .contact { text-align: center; padding: 70px 28px; margin-top: 40px; position: relative; overflow: hidden; }
+    .contact::before { content: ""; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(34,211,238,0.12), transparent, rgba(167,139,250,0.12), transparent); animation: spin 14s linear infinite; z-index: -1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .contact h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); }
+    .contact .sub { margin: 0 auto; }
+    .contact .cta { justify-content: center; }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 50px 0 60px; font-family: var(--mono); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* tablet */
+    @media (max-width: 1024px) {
+      .hero { gap: 32px; }
+      .stats { grid-template-columns: repeat(6, 1fr); }
+      .stats .stat { grid-column: span 2; }
+      .stats .stat:nth-child(4), .stats .stat:nth-child(5) { grid-column: span 3; }
+      .grid3, .trust { grid-template-columns: 1fr 1fr; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .chapter.on { grid-template-columns: 1fr; gap: 24px; }
+      .ch-left { position: static; }
+      .ch-metrics { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 120px; }
+      .terminal { max-width: 600px; }
+      .term-body { min-height: 0; }
+      .lanes, .split2, .exp-head { grid-template-columns: 1fr; }
+      .exp-head { gap: 14px; }
+      .nodes { grid-template-columns: repeat(3, 1fr); row-gap: 26px; }
+      .nodes::before, .packet { display: none; }
+      section { padding: 80px 0 30px; }
+    }
+    /* phone */
+    @media (max-width: 640px) {
+      .wrap { padding: 0 18px; }
+      nav { top: 10px; max-width: calc(100% - 20px); overflow-x: auto; scrollbar-width: none; }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { padding: 7px 11px; font-size: 0.82rem; }
+      .hero { padding-top: 96px; }
+      .hero h1 { font-size: 2.3rem; }
+      .rotator { display: block; min-height: 1.1em; }
+      .hero p.lead { font-size: 1rem; }
+      .cta .btn { flex: 1 1 auto; justify-content: center; }
+      .terminal { font-size: 0.72rem; }
+      .term-input input { font-size: 16px; }
+      .cells div { height: 46px; font-size: 0.6rem; }
+      .term-body { padding: 14px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stats .stat, .stats .stat:nth-child(4) { grid-column: auto; }
+      .stats .stat:last-child { grid-column: 1 / -1; }
+      .stat { padding: 20px 16px; }
+      .stat b { font-size: 1.8rem; }
+      section { padding: 64px 0 24px; }
+      .grid3, .trust { grid-template-columns: 1fr; }
+      .lab { padding: 6px; }
+      .lab-body { padding: 16px 12px 18px; }
+      .tab { padding: 10px 12px; font-size: 0.85rem; }
+      .controls { gap: 8px; }
+      .action { flex: 1 1 100%; }
+      .fp { grid-template-columns: 1fr; }
+      .log { height: 120px; }
+      .pipeline { padding: 22px 16px; }
+      .nodes { grid-template-columns: repeat(2, 1fr); }
+      .node .ic { width: 56px; height: 56px; font-size: 1.3rem; }
+      .facts { grid-template-columns: 1fr; }
+      .yr { min-width: 0; padding: 12px 4px 14px; text-align: center; }
+      .tabs { grid-template-columns: 1fr 1fr; }
+      .yr b { font-size: 1rem; }
+      .yr span { display: none; }
+      .ch-year { font-size: 3rem; }
+      .ch-metrics { grid-template-columns: 1fr; }
+      .ch-right { padding: 18px 16px; }
+      .quote { padding: 22px 20px; }
+      .quote p { font-size: 1.05rem; }
+      .split2 .panel { padding: 20px; }
+      pre.code { font-size: 0.7rem; padding: 16px; }
+      .contact { padding: 48px 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#top">MJ</a>
+    <a href="#services">Services</a>
+    <a href="#lab">Lab</a>
+    <a href="#ai">AI</a>
+    <a href="#journey">Journey</a>
+    <a href="#trust">Why me</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="wrap" id="top">
+    <div class="hero">
+      <div>
+        <span class="status"><span class="dot"></span>Open to remote roles &amp; freelance</span>
+        <h1>Mayank Jain.<br>I build <span class="grad rotator" id="rotator">payment systems</span></h1>
+        <p class="lead">
+          For five years I've been the engineer a US fintech platform runs on: <b>its payments, its cloud, its security,
+          and now its AI.</b> I take products from a blank repo to real money moving safely, and I keep them running.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#lab">Try to break my systems ↓</a>
+          <a class="btn" href="https://github.com/mayankjainllrl" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/mayank-jain-731325148/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div class="terminal reveal">
+        <div class="term-bar">
+          <i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+          <span>mayank@udaipur: ~</span>
+        </div>
+        <div class="term-body" id="term"><div id="termOut"></div><div class="term-input" id="termLine" hidden><span class="t-prompt">$</span><input id="termIn" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input"></div></div>
+      </div>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><b><span class="count" data-to="5">0</span>+ yrs</b><p>owning a US fintech backend end to end</p></div>
+      <div class="stat"><b><span class="count" data-to="4400">0</span>+</b><p>commits shipped to production</p></div>
+      <div class="stat"><b>$<span class="count" data-to="12">0</span>K+</b><p>a year in platform costs cut</p></div>
+      <div class="stat"><b><span class="count" data-to="21">0</span></b><p>countries my payment flows are built for, with KYC and sanctions checks</p></div>
+      <div class="stat"><b><span class="count" data-to="6">0</span></b><p>user portals I've secured and shipped features to</p></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 01 · what I do</div>
+        <h2>One engineer, the whole stack</h2>
+        <p class="sub">I've been the person a product leans on: the one who designs it, ships it, secures it and keeps it running.
+          Here's what I can take off your plate.</p>
+      </div>
+      <div class="grid3">
+        <div class="panel card reveal"><div class="ic">⚙️</div><h4>Backend &amp; APIs</h4>
+          <p>APIs that stay correct when requests race, retry and fail. Background jobs, schedulers, data migrations on live production data.</p>
+          <div class="chips"><span>Python</span><span>Flask</span><span>FastAPI</span><span>MongoDB</span><span>PostgreSQL</span></div></div>
+        <div class="panel card reveal"><div class="ic">💳</div><h4>Payments &amp; fintech</h4>
+          <p>Cards, ACH, SEPA, Klarna, payouts, refunds and FX, with KYC/KYB, tax forms and sanctions screening built in.</p>
+          <div class="chips"><span>Stripe</span><span>Dwolla</span><span>Plaid</span><span>Persona</span><span>OFAC</span></div></div>
+        <div class="panel card reveal"><div class="ic">🤖</div><h4>AI &amp; LLM systems</h4>
+          <p>LLM features that run unattended in production: tool calling, structured output, retrieval, and the guardrails around them.</p>
+          <div class="chips"><span>LiteLLM</span><span>Tool calling</span><span>RAG</span><span>Evals</span></div></div>
+        <div class="panel card reveal"><div class="ic">☁️</div><h4>Cloud &amp; DevOps</h4>
+          <p>Staging and production from scratch, CI/CD with health-gated deploys, serverless, and AWS bills cut by ~70%.</p>
+          <div class="chips"><span>AWS</span><span>Lambda</span><span>Docker</span><span>CI/CD</span><span>IAM</span></div></div>
+        <div class="panel card reveal"><div class="ic">🛡️</div><h4>Security</h4>
+          <p>JWT auth, rate limiting, role-based access, field-level encryption, signed documents, email authentication. And I go looking for holes.</p>
+          <div class="chips"><span>JWT</span><span>RBAC</span><span>KMS</span><span>Encryption</span><span>DMARC</span></div></div>
+        <div class="panel card reveal"><div class="ic">🚀</div><h4>Product delivery</h4>
+          <p>Spec to launch: I lead the team, direct frontend and QA, run releases, and explain technical trade-offs in plain language.</p>
+          <div class="chips"><span>Tech lead</span><span>React teams</span><span>QA</span><span>Jira</span><span>Releases</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAB -->
+  <section id="lab">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 02 · how I think</div>
+        <h2>Six ways real systems break, and how I design them out</h2>
+        <p class="sub">Every one of these came up on a real platform I built. They're live: pick one and try to break it.</p>
+      </div>
+
+      <div class="panel lab reveal">
+        <div class="tabs" role="tablist">
+          <button class="tab on" data-exp="e1">💸 The double charge<small>idempotency</small></button>
+          <button class="tab" data-exp="e2">📄 The edited contract<small>digital signatures</small></button>
+          <button class="tab" data-exp="e3">🪙 The lost cent<small>money precision</small></button>
+          <button class="tab" data-exp="e4">🚨 The silent pass<small>fail-closed compliance</small></button>
+          <button class="tab" data-exp="e5">🏷️ The last promo code<small>concurrency</small></button>
+          <button class="tab" data-exp="e6">🔁 The provider that says no<small>AI resilience</small></button>
+        </div>
+        <div class="lab-body">
+
+          <!-- 1. idempotency -->
+          <div class="exp on" id="e1">
+            <div class="exp-head">
+              <div>
+                <h3>A user taps "Pay" three times on a slow network</h3>
+                <p>A naive backend sees three requests and charges three times. Mine sends an idempotency key and stores it
+                  under a unique constraint, so retries return the original charge, even when they arrive in the same millisecond.</p>
+                <ol class="try"><li>Press <b>Pay $100</b> once.</li><li>Now press it again a few times, fast.</li><li>Compare what each backend charged.</li></ol>
+              </div>
+              <div class="story"><b>WHERE I'VE FIXED THIS</b>Payouts that close exactly once when two webhooks arrive together, retry-safe document generation,
+                and a notifier that once sent triple emails, rewritten to claim each job exactly once.</div>
+            </div>
+            <div class="controls">
+              <button class="action" id="pay">Pay $100 →</button>
+              <button class="ghost" id="payReset">reset</button>
+            </div>
+            <div class="lanes">
+              <div class="lane bad">
+                <div class="lane-head"><h4>❌ Naive backend</h4><small>POST /charge</small></div>
+                <div class="big" id="badTotal">$0</div>
+                <div class="log" id="badLog"><div class="empty">waiting for requests…</div></div>
+              </div>
+              <div class="lane good">
+                <div class="lane-head"><h4>✅ Idempotent backend</h4><small>key: order_8271</small></div>
+                <div class="big" id="goodTotal">$0</div>
+                <div class="log" id="goodLog"><div class="empty">waiting for requests…</div></div>
+              </div>
+            </div>
+            <div class="verdict" id="payVerdict"></div>
+          </div>
+
+          <!-- 2. signatures -->
+          <div class="exp" id="e2">
+            <div class="exp-head">
+              <div>
+                <h3>Someone quietly edits a signed agreement</h3>
+                <p>Signing a document takes its fingerprint (a SHA-256 hash) and locks it with a private key. Change even one
+                  character and the fingerprint no longer matches, so the edit gets caught.</p>
+                <ol class="try"><li>Press <b>Sign</b>.</li><li>Press <b>Change the amount</b>, or edit any text yourself.</li><li>Watch the check fail. Undo it and it passes again.</li></ol>
+              </div>
+              <div class="story"><b>WHERE THIS COMES FROM</b>I built signing for legal agreements with keys held in AWS KMS. A verification ID goes into the
+                document before signing, so anyone can later check a copy by link or upload. Tested against edited, unsigned and renamed files.</div>
+            </div>
+            <textarea class="doc" id="doc" spellcheck="false">INVESTMENT AGREEMENT
+
+Investor: Investor Name
+Amount: $25,000.00
+Date: 01 Oct 2026
+
+Signed electronically</textarea>
+            <div class="controls" style="margin-top:14px">
+              <button class="action" id="signBtn">① Sign</button>
+              <button class="ghost" id="tamperBtn">② Change the amount</button>
+            </div>
+            <div class="fp">
+              <div><span>fingerprint when signed</span><code id="fpSigned">not signed yet</code></div>
+              <div><span>fingerprint right now</span><code id="fpNow">–</code></div>
+            </div>
+            <div class="status" id="sigState">Not signed yet. Press <b>Sign</b> to start.</div>
+          </div>
+
+          <!-- 3. cents -->
+          <div class="exp" id="e3">
+            <div class="exp-head">
+              <div>
+                <h3>Splitting money between people</h3>
+                <p>$200 split three ways is $66.666… each, but money only has cents. Round every share up and you pay out money you
+                  don't have. Round down and a cent disappears. Mine counts in whole cents and hands out the leftover on purpose.</p>
+                <ol class="try"><li>Pick a split below.</li><li>Compare the <b>total paid out</b> at the bottom of each side.</li></ol>
+              </div>
+              <div class="story"><b>WHERE THIS COMES FROM</b>I found floating-point errors in real payout splits and fixed them, and made currency
+                conversions round down to the cent so a payout can never be larger than the balance behind it.</div>
+            </div>
+            <div class="controls">
+              <button class="ghost pick on" data-a="200" data-n="3">$200 ÷ 3</button>
+              <button class="ghost pick" data-a="100" data-n="3">$100 ÷ 3</button>
+              <button class="ghost pick" data-a="1000" data-n="7">$1,000 ÷ 7</button>
+              <button class="ghost pick" data-a="50" data-n="6">$50 ÷ 6</button>
+            </div>
+            <div class="lanes">
+              <div class="lane bad">
+                <div class="lane-head"><h4>❌ Round each share</h4><small>typical code</small></div>
+                <table class="split" id="badSplit"></table>
+              </div>
+              <div class="lane good">
+                <div class="lane-head"><h4>✅ Whole cents + leftover</h4><small>how I build it</small></div>
+                <table class="split" id="goodSplit"></table>
+              </div>
+            </div>
+            <div class="verdict" id="centVerdict"></div>
+          </div>
+
+          <!-- 4. fail closed -->
+          <div class="exp" id="e4">
+            <div class="exp-head">
+              <div>
+                <h3>The safety check goes down. Does the money still go out?</h3>
+                <p>Before money is sent, the person receiving it must be checked against government sanctions lists. The real question
+                  is what happens on the day that check service is down.</p>
+                <ol class="try"><li>Press <b>Normal day</b>: both systems behave.</li><li>Press <b>Check service is down</b>.</li><li>Compare what each system did with the $10,000.</li></ol>
+              </div>
+              <div class="story"><b>WHERE THIS COMES FROM</b>I built a sanctions screening engine where every refund and payout must pass the check, with a full
+                audit trail. If the screening provider is down, the answer is "needs review", never a silent yes.</div>
+            </div>
+            <div class="controls">
+              <button class="action" id="dayNormal">Normal day: send $10,000</button>
+              <button class="action alt" id="dayDown">Check service is down: send $10,000</button>
+            </div>
+            <div class="lanes">
+              <div class="lane bad">
+                <div class="lane-head"><h4>❌ "No answer? Send it."</h4><small>typical code</small></div>
+                <div class="status" id="openState">Waiting for a payout…</div>
+              </div>
+              <div class="lane good">
+                <div class="lane-head"><h4>✅ "No answer? Hold it."</h4><small>how I build it</small></div>
+                <div class="status" id="closedState">Waiting for a payout…</div>
+              </div>
+            </div>
+            <div class="verdict" id="gateVerdict"></div>
+          </div>
+
+          <!-- 5. promo race -->
+          <div class="exp" id="e5">
+            <div class="exp-head">
+              <div>
+                <h3>One discount left. Two people click at the same instant.</h3>
+                <p>A one-time code has a single use left. Typical code asks "is there a use left?" and then uses it, in two separate steps.
+                  Both buyers ask before either one uses it, so both get a yes. Mine checks and uses in one step, so only one can win.</p>
+                <ol class="try"><li>Press the button: two buyers apply the code together.</li><li>Read what happened on each side, step by step.</li></ol>
+              </div>
+              <div class="story"><b>WHERE THIS COMES FROM</b>Discount codes in a paid product I built stay correct when many people check out at once. A code is held
+                while a payment is open and released if the payment is abandoned.</div>
+            </div>
+            <div class="controls">
+              <button class="action" id="raceBtn">Buyer 1 and Buyer 2 apply the code →</button>
+            </div>
+            <div class="lanes">
+              <div class="lane bad">
+                <div class="lane-head"><h4>❌ Check, then use</h4><small>typical code</small></div>
+                <div class="big" id="raceBadUses">used 0 of 1</div>
+                <div class="log" id="raceBadLog"><div class="empty">waiting…</div></div>
+              </div>
+              <div class="lane good">
+                <div class="lane-head"><h4>✅ Check and use in one step</h4><small>how I build it</small></div>
+                <div class="big" id="raceGoodUses">used 0 of 1</div>
+                <div class="log" id="raceGoodLog"><div class="empty">waiting…</div></div>
+              </div>
+            </div>
+            <div class="verdict" id="raceVerdict"></div>
+          </div>
+
+          <!-- 6. fallback chain -->
+          <div class="exp" id="e6">
+            <div class="exp-head">
+              <div>
+                <h3>An outside service stops answering</h3>
+                <p>AI systems lean on outside services, like web search. The day your main provider starts refusing requests, a fragile
+                  system just fails. Mine keeps backups in line and moves to the next one automatically.</p>
+                <ol class="try"><li>The main search service starts out <b>blocked</b>.</li><li>Press <b>Look up 8 companies</b>.</li><li>Switch it to <b>working</b> and try again.</li></ol>
+              </div>
+              <div class="story"><b>WHERE THIS COMES FROM</b>When an AI system's research kept failing, I measured why, compared six providers and built a
+                fallback chain at zero extra cost. Same test, before and after: 1 of 8 lookups to 8 of 8.</div>
+            </div>
+            <div class="controls">
+              <span class="seg-label">main search service</span>
+              <div class="seg" id="mainSeg"><button data-v="up">working</button><button class="on" data-v="down">blocked</button></div>
+              <button class="action" id="lookupBtn">Look up 8 companies →</button>
+            </div>
+            <div class="lanes">
+              <div class="lane bad">
+                <div class="lane-head"><h4>❌ One service only</h4><small>typical code</small></div>
+                <div class="big" id="fbBadScore">– of 8 found</div>
+                <div class="cells" id="fbBadCells"></div>
+              </div>
+              <div class="lane good">
+                <div class="lane-head"><h4>✅ Backups in line</h4><small>main → backup 1 → backup 2</small></div>
+                <div class="big" id="fbGoodScore">– of 8 found</div>
+                <div class="cells" id="fbGoodCells"></div>
+              </div>
+            </div>
+            <div class="verdict" id="fbVerdict"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section id="ai">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 03 · AI engineering</div>
+        <h2>AI that runs in production, not just in a demo</h2>
+        <p class="sub">A prototype that works on a laptop is the easy half. I take LLM systems the rest of the way: event-driven,
+          secure, observable, cheap to run, and safe to retry. This is the shape of the LLM email workflow I took to production.</p>
+      </div>
+      <div class="panel pipeline reveal">
+        <div class="nodes" id="nodes">
+          <div class="packet" id="packet"></div>
+          <div class="node"><div class="ic">📨</div><h5>Trigger</h5><small>email push</small></div>
+          <div class="node"><div class="ic">λ</div><h5>Runtime</h5><small>serverless</small></div>
+          <div class="node"><div class="ic">🧠</div><h5>LLM</h5><small>understand</small></div>
+          <div class="node"><div class="ic">🔧</div><h5>Tools</h5><small>research</small></div>
+          <div class="node"><div class="ic">🛡️</div><h5>Guardrails</h5><small>validate</small></div>
+          <div class="node"><div class="ic">👤</div><h5>Human</h5><small>decides</small></div>
+        </div>
+        <div class="caption" id="caption"></div>
+        <div class="facts">
+          <div><b>Exactly-once</b>no message ever processed twice</div>
+          <div><b>&lt; $1 / month</b>to host, vs ~$15 on a server</div>
+          <div><b>1/8 → 8/8</b>research success after my fallback chain</div>
+          <div><b>~15 seconds</b>from email arriving to processed</div>
+        </div>
+        <div class="now">
+          <span class="dot"></span>
+          <p><b>Now leading the next one.</b> I own a new outbound AI system end to end: architecture, phasing and a team of three.
+            The goal is writing that reads like a person, not a template, with hard guardrails against spam, invented claims and repeat contact,
+            and an honest signature that says it's an AI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 04 · the journey</div>
+        <h2>Five years, one highlight reel</h2>
+        <p class="sub">My first working day was 11 October 2021. Since then I've helped build a US fintech investment platform from its
+          first payment to its first AI system. These are the big moments from each year, not the full list. The work is under NDA,
+          so it's described without names or code.</p>
+      </div>
+
+      <div class="years reveal" role="tablist">
+        <button class="yr" data-y="2022"><b>2021–22</b><span>Foundations</span></button>
+        <button class="yr" data-y="2023"><b>2023</b><span>Real money</span></button>
+        <button class="yr" data-y="2024"><b>2024</b><span>Serverless</span></button>
+        <button class="yr" data-y="2025"><b>2025</b><span>Rebuild</span></button>
+        <button class="yr on" data-y="2026"><b>2026</b><span>Global + AI</span></button>
+      </div>
+
+      <div class="chapter" id="y2022">
+        <div class="ch-left">
+          <div class="ch-when">Oct 2021 – Dec 2022</div>
+          <div class="ch-year grad">2021–22</div>
+          <h3>Building the platform from the ground up</h3>
+          <p>I started in October 2021 and quickly became the engineer behind the platform's payments, its environments and every release.</p>
+          <div class="ch-metrics">
+            <div><b>~70% lower</b><span>AWS bill, about $700 down to $200 a month</span></div>
+            <div><b>3 codebases</b><span>released near-daily through CI/CD I set up</span></div>
+            <div><b>5 portals</b><span>sharing one notification platform</span></div>
+          </div>
+        </div>
+        <div class="panel ch-right">
+          <div class="hl">Highlights of 2021–22</div>
+          <div class="ch-group"><h5>Payments</h5><ul>
+            <li><b>The first payment system, on Dwolla and Plaid:</b> onboarding, wallets, bank linking, deposits, withdrawals and the full investing flow, with platform fees.</li>
+            <li>Refunds with automatic retries and a transaction ledger with exports.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Product</h5><ul>
+            <li><b>A learning platform backend, built largely alone:</b> Google sign-in, JWT authentication, video progress, quizzes, exams and certificates.</li>
+            <li>One sign-up that creates linked accounts across portals, a waitlist engine, and an analytics API with 15+ metrics.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Infrastructure &amp; performance</h5><ul>
+            <li><b>Stood up staging and production</b> with CI/CD pipelines for backend, admin and frontend.</li>
+            <li>Moved 4 frontends from servers to S3 + CloudFront and right-sized the rest.</li>
+            <li>Replaced slow in-memory sorting with database aggregation pipelines.</li>
+            <li>Tiered admin permissions: no admin can act on anyone above their level.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="chapter" id="y2023">
+        <div class="ch-left">
+          <div class="ch-when">Jan – Dec 2023</div>
+          <div class="ch-year grad">2023</div>
+          <h3>Taking real money to production</h3>
+          <p>The year the platform went from test transfers to real bank transfers, and I took it through the payment provider's review myself.</p>
+          <div class="ch-metrics">
+            <div><b>Approved</b><span>by the payment provider's legal and security review</span></div>
+            <div><b>4 tax filer types</b><span>US and foreign, encrypted field by field</span></div>
+            <div><b>7 portals</b><span>protected against password guessing</span></div>
+          </div>
+        </div>
+        <div class="panel ch-right">
+          <div class="hl">Highlights of 2023</div>
+          <div class="ch-group"><h5>Payments</h5><ul>
+            <li><b>A money-flow engine</b> for investing, payouts, fees and returns, splitting large transfers to stay under the provider's per-transfer limit.</li>
+            <li>Failure-safe chains: if one transfer fails, the linked ones cancel automatically. Oversubscribed money is refunded pro rata.</li>
+            <li>Found and fixed floating-point errors in payout splits.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Identity &amp; compliance</h5><ul>
+            <li><b>Business verification for every company type:</b> sole proprietors, LLCs, partnerships, corporations and trusts, with US and non-US owners.</li>
+            <li>Identity checks with a hard rule: nobody invests before verification is complete.</li>
+            <li>A tax-information system (W-8 and W-9 types) with field-level encryption.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Security &amp; team</h5><ul>
+            <li>Stronger passwords across 6 portals, bank numbers masked with a data migration, ~15 unused payment endpoints removed.</li>
+            <li>JWT session hardening, including a random-logout bug traced to how token expiry was read.</li>
+            <li>Set up Jira and onboarded a frontend developer and a QA tester.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="chapter" id="y2024">
+        <div class="ch-left">
+          <div class="ch-when">Jan – Dec 2024</div>
+          <div class="ch-year grad">2024</div>
+          <h3>Going serverless, and making documents tamper-proof</h3>
+          <p>I designed the service that took heavy and money-related work off the web servers, and automated the platform's legal paperwork.</p>
+          <div class="ch-metrics">
+            <div><b>Designed alone</b><span>the serverless backbone for money work</span></div>
+            <div><b>4 legal documents</b><span>generated and signed per investor</span></div>
+            <div><b>RSA-2048</b><span>KMS signatures that expose any edit</span></div>
+          </div>
+        </div>
+        <div class="panel ch-right">
+          <div class="hl">Highlights of 2024</div>
+          <div class="ch-group"><h5>Architecture</h5><ul>
+            <li><b>A serverless task platform on AWS Lambda,</b> designed and written alone: refunds, investments, payment webhooks and notifications moved off the API servers.</li>
+            <li>Rebuilt 9 money-movement functions after tracing why provider data went missing between transfers.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Documents &amp; signing</h5><ul>
+            <li><b>Legal documents generated automatically</b> from Word templates with formatting intact, converted to PDF in parallel for each investor.</li>
+            <li>Digital signing with AWS KMS, with a verification ID embedded before signing so every copy stays checkable.</li>
+            <li>Guaranteed delivery: critical documents and signature emails retry every 15 minutes until they succeed.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Correctness &amp; ops</h5><ul>
+            <li>Fixed a race condition with a queue-based worker that survives deploys; stopped over-refunds and extra wallet credits.</li>
+            <li>Sensitive personal data (SSN, passport) encrypted at rest and masked in every response.</li>
+            <li>Reconciled drifted branches across 3 repos safely, rehearsed on a copy first.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="chapter" id="y2025">
+        <div class="ch-left">
+          <div class="ch-when">Jan – Dec 2025</div>
+          <div class="ch-year grad">2025</div>
+          <h3>Rebuilding the payment core on Stripe</h3>
+          <p>When the business needed multiple currencies, I moved payments and identity onto one provider before launch, as the only backend owner.</p>
+          <div class="ch-metrics">
+            <div><b>~$7,200 a year</b><span>in fixed vendor fees removed</span></div>
+            <div><b>$50K+</b><span>first fundraise ran on the new stack</span></div>
+            <div><b>11 APIs</b><span>behind a server-side paywall</span></div>
+          </div>
+        </div>
+        <div class="panel ch-right">
+          <div class="hl">Highlights of 2025</div>
+          <div class="ch-group"><h5>Payments</h5><ul>
+            <li><b>Replaced three vendors with Stripe across three codebases:</b> Connect, bank linking, identity verification, and new investment, refund and payout flows.</li>
+            <li>Signed webhooks per environment, handed off to serverless workers.</li>
+            <li>A database lock with expiry so two taps can never create two payments.</li>
+            <li>Handled the nasty case where a payment is reported successful, then fails later.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Product</h5><ul>
+            <li><b>A paid course product:</b> cards and Klarna, discount codes that stay correct when many people check out at once, abandoned payments cancelled within the hour.</li>
+            <li>Risk controls: weekly limits per bank account and a daily cap on bank-linking attempts.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Performance &amp; reliability</h5><ul>
+            <li>Moved services to Gunicorn and made logging stop slowing down requests.</li>
+            <li>SPF, DKIM and DMARC with a reject policy, so nobody can send email pretending to be the platform.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="chapter on" id="y2026">
+        <div class="ch-left">
+          <div class="ch-when">Jan 2026 – now</div>
+          <div class="ch-year grad">2026</div>
+          <h3>Going global, locking down compliance, and bringing in AI</h3>
+          <p>Euro investing, a sanctions engine, a round of security fixes, and the platform's first AI systems. <span class="live-tag">IN PROGRESS</span></p>
+          <div class="ch-metrics">
+            <div><b>21 countries</b><span>the US plus 20 Eurozone countries</span></div>
+            <div><b>$20K → $156K</b><span>weekly per-bank limit, negotiated with Stripe</span></div>
+            <div><b>2 AI systems</b><span>one taken to production, one I'm leading</span></div>
+          </div>
+        </div>
+        <div class="panel ch-right">
+          <div class="hl">Highlights of 2026 so far</div>
+          <div class="ch-group"><h5>Payments</h5><ul>
+            <li><b>Multi-currency investing:</b> euro bank linking, exchange rates locked at investment, separate USD and EUR payouts, refunds in the original currency.</li>
+            <li>Investments stay pending until slow euro transfers actually arrive.</li>
+            <li>Caught reconciliation bugs that would have inflated fees or overdrawn a balance.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Compliance &amp; security</h5><ul>
+            <li><b>A sanctions screening engine:</b> compared 7 providers, built it provider-independent with an audit trail, and screened every existing investor.</li>
+            <li>Business verification on Stripe for US and EU people and companies; system-generated, KMS-signed agreements.</li>
+            <li>Closed an authorization hole and a login that accepted any password, then audited every other portal.</li>
+          </ul></div>
+          <div class="ch-group"><h5>Performance &amp; scale</h5><ul>
+            <li><b>One shared background executor across ~40 places</b> that used raw threads, plus async logging, so slow work never blocks a response.</li>
+            <li>Notifications sent in batches of 500, claimed atomically so nobody gets the same email twice.</li>
+          </ul></div>
+          <div class="ch-group"><h5>AI</h5><ul>
+            <li><b>Took an LLM email system to production</b> on serverless AWS: under $1 a month to host, ~15 seconds per email, never processes the same email twice.</li>
+            <li>Grew its test suite from 1,199 to 1,807 tests and found three model defects the happy path missed.</li>
+            <li><b>Now leading a second AI system</b> end to end with a team of three. <span class="live-tag">BUILDING</span></li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="ch-nav">
+        <button class="ghost" id="prevYr">← earlier</button>
+        <button class="ghost" id="nextYr">later →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 05 · why teams trust me</div>
+        <h2>What working with me is like</h2>
+      </div>
+      <div class="panel quote reveal">
+        <p>Five years. One client. When I changed employers, <span>they chose to keep working with me.</span></p>
+      </div>
+      <div class="trust">
+        <div class="panel card reveal"><div class="num">01</div><h4>I own outcomes, not tickets</h4>
+          <p>Sole backend owner of the payment system. Release owner, shipping near-daily to production across five repositories.</p></div>
+        <div class="panel card reveal"><div class="num">02</div><h4>I find the bug before your users do</h4>
+          <p>A login that accepted any password. An API that trusted any profile ID. FX fees misreported. Each found by me, fixed, then audited platform-wide.</p></div>
+        <div class="panel card reveal"><div class="num">03</div><h4>I measure before I guess</h4>
+          <p>When the AI's research kept failing, I proved where it broke, benchmarked six providers, and shipped a zero-cost fix: 1 of 8 lookups to 8 of 8.</p></div>
+        <div class="panel card reveal"><div class="num">04</div><h4>I write it down</h4>
+          <p>Flow specs, API references, runbooks, handover docs and decision logs. The next engineer gets up to speed in days, not weeks.</p></div>
+        <div class="panel card reveal"><div class="num">05</div><h4>I talk to vendors and clients</h4>
+          <p>The engineering contact for Stripe, Dwolla, Plaid, Persona and AWS. I negotiated our weekly payment limits from $20K to $156K.</p></div>
+        <div class="panel card reveal"><div class="num">06</div><h4>I lead and grow people</h4>
+          <p>I lead a team of three, direct frontend and QA, interview candidates, and onboard every new teammate on the systems I built.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE -->
+  <section id="code">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">// 06 · open source</div>
+        <h2>The double-charge fix, in real code</h2>
+      </div>
+      <div class="split2">
+        <div class="panel reveal">
+          <h3><a href="https://github.com/mayankjainllrl/Payflow" target="_blank" rel="noopener">PayFlow ↗</a></h3>
+          <p style="color:var(--muted)">A payments service on a modern async stack, built around the parts that break in real payment systems.</p>
+          <ul>
+            <li><b>Idempotency</b> with a unique constraint, so two simultaneous retries can't both charge.</li>
+            <li><b>Double-entry ledger</b> written in one atomic transaction.</li>
+            <li><b>Async integration tests</b> against real Postgres, in GitHub Actions CI.</li>
+          </ul>
+          <div class="chips"><span>FastAPI</span><span>PostgreSQL</span><span>SQLAlchemy 2.0</span><span>Alembic</span><span>Docker</span><span>pytest</span></div>
+        </div>
+        <pre class="code reveal"><span class="c-c"># two requests, same key, same millisecond:
+# the database decides who wins, not the app</span>
+<span class="c-k">try</span>:
+    session.add(Payment(idempotency_key=key, amount=amount))
+    <span class="c-k">await</span> session.<span class="c-f">commit</span>()
+<span class="c-k">except</span> <span class="c-f">IntegrityError</span>:
+    <span class="c-k">await</span> session.<span class="c-f">rollback</span>()
+    <span class="c-c"># the other request won the race;
+    # return its payment instead of charging again</span>
+    existing = <span class="c-k">await</span> session.<span class="c-f">scalar</span>(
+        select(Payment).where(Payment.idempotency_key == key)
+    )
+    <span class="c-k">return</span> existing</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="panel contact reveal">
+        <div class="kicker">// 07 · contact</div>
+        <h2>Got money to move, or an AI system to ship?</h2>
+        <p class="sub">I'm open to remote backend and AI engineering roles, and to freelance work on payments, cloud and LLM integrations.
+          Tell me what you're building. I reply within a day.</p>
+        <div class="cta">
+          <a class="btn primary" href="mailto:mayankjainllrl@gmail.com">mayankjainllrl@gmail.com</a>
+          <a class="btn" href="https://github.com/mayankjainllrl" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/mayank-jain-731325148/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Mayank Jain · hand-built, no templates · Udaipur, India</footer>
+
+  <script>
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const $ = (id) => document.getElementById(id);
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    // cursor spotlight
+    window.addEventListener("pointermove", (e) => {
+      document.body.style.setProperty("--mx", e.clientX + "px");
+      document.body.style.setProperty("--my", e.clientY + "px");
+    });
+
+    // hero rotator
+    const words = ["payment systems", "AI systems", "backend APIs", "cloud infrastructure", "secure platforms", "products end to end"];
+    const rot = $("rotator");
+    let wi = 0;
+    function typeWord(word, i = 0) {
+      rot.textContent = word.slice(0, i);
+      if (i < word.length) return setTimeout(() => typeWord(word, i + 1), 70);
+      setTimeout(() => eraseWord(word, word.length), 1800);
+    }
+    function eraseWord(word, i) {
+      rot.textContent = word.slice(0, i);
+      if (i > 0) return setTimeout(() => eraseWord(word, i - 1), 35);
+      wi = (wi + 1) % words.length;
+      typeWord(words[wi]);
+    }
+    if (reduced) rot.textContent = words[0]; else setTimeout(() => eraseWord(words[0], words[0].length), 1800);
+
+    // terminal: typed intro, then interactive
+    const P = '<span class="t-prompt">$</span> ';
+    const VALUES = [
+      '<span class="t-dim">#</span> rules I code by. and live by.',
+      '<span class="t-dim">1.</span> retry if you fail. never charge anyone twice.',
+      '<span class="t-dim">2.</span> keep the ledger balanced. give what you take.',
+      '<span class="t-dim">3.</span> fail loudly. a silent error is a lie.',
+      '<span class="t-dim">4.</span> handle the edge cases. that is where people get hurt.',
+      '<span class="t-dim">5.</span> leave it better than you found it.',
+    ];
+    const termLines = [
+      [P + 'whoami', 400],
+      ['<span class="t-key">name</span>     <span class="t-str">"Mayank Jain"</span>', 80],
+      ['<span class="t-key">role</span>     <span class="t-str">"Tech Lead · Backend Engineer"</span>', 80],
+      ['<span class="t-key">domain</span>   <span class="t-str">"fintech · payments · AI"</span>', 80],
+      ['<span class="t-key">based</span>    <span class="t-str">"Udaipur, India · remote"</span>', 500],
+      ['', 100],
+      [P + 'cat values.txt', 400],
+      ...VALUES.map((v, i) => [v, i === VALUES.length - 1 ? 500 : 140]),
+      ['', 100],
+      ['<span class="t-dim"># this terminal is real. type </span><span class="t-str">help</span>', 0],
+    ];
+    const term = $("term"), termOut = $("termOut"), termLine = $("termLine"), termIn = $("termIn");
+    const scrollTerm = () => { term.scrollTop = term.scrollHeight; };
+    (async function runTerminal() {
+      let html = "";
+      for (const [line, pause] of termLines) {
+        if (line.startsWith(P) && !reduced) {
+          html += P;
+          for (const ch of line.slice(P.length)) {
+            html += ch;
+            termOut.innerHTML = html + '<span class="cursor"></span>';
+            await sleep(55);
+          }
+        } else {
+          html += line;
+        }
+        html += "\n";
+        termOut.innerHTML = html + '<span class="cursor"></span>';
+        if (!reduced) await sleep(pause);
+      }
+      termOut.innerHTML = html;
+      termLine.hidden = false;
+      scrollTerm();
+    })();
+
+    const COMMANDS = {
+      help: () => [
+        'commands:',
+        '  <span class="t-str">whoami</span>     who is this',
+        '  <span class="t-str">skills</span>     what I work with',
+        '  <span class="t-str">projects</span>   five years in five lines',
+        '  <span class="t-str">values</span>     rules I code by',
+        '  <span class="t-str">lab</span>        break my systems',
+        '  <span class="t-str">contact</span>    get in touch',
+        '  <span class="t-str">hire</span>       the best command',
+        '  <span class="t-str">clear</span>      clean slate',
+      ],
+      whoami: () => ['Mayank Jain · tech lead · 5 years on a US fintech platform', 'payments, cloud, security, and now AI systems in production.'],
+      skills: () => [
+        '<span class="t-key">backend</span>   python · flask · fastapi · mongodb · postgres',
+        '<span class="t-key">payments</span>  stripe · dwolla · plaid · kyc/kyb · ofac',
+        '<span class="t-key">cloud</span>     aws lambda · ecr · iam · kms · docker · ci/cd',
+        '<span class="t-key">ai</span>        llm apis · tool calling · rag · litellm',
+        '<span class="t-key">security</span>  jwt · rbac · encryption · signed documents',
+      ],
+      projects: () => [
+        '<span class="t-str">2021</span>  first day: 11 oct. built the platform: payments, staging + prod, ci/cd',
+        '<span class="t-str">2023</span>  real money live: provider approval, kyb, encrypted tax data',
+        '<span class="t-str">2024</span>  serverless backbone + tamper-proof signed documents',
+        '<span class="t-str">2025</span>  payment core rebuilt on stripe, first $50K+ raise',
+        '<span class="t-str">2026</span>  21 countries, sanctions engine, ai in production',
+        '<span class="t-dim">→ full story: </span><a href="#journey">#journey</a>',
+      ],
+      values: () => VALUES,
+      lab: () => { setTimeout(() => location.hash = "#lab", 400); return ['opening the lab…']; },
+      contact: () => ['email   <a href="mailto:mayankjainllrl@gmail.com">mayankjainllrl@gmail.com</a>', 'github  <a href="https://github.com/mayankjainllrl" target="_blank" rel="noopener">github.com/mayankjainllrl</a>', 'linkedin <a href="https://www.linkedin.com/in/mayank-jain-731325148/" target="_blank" rel="noopener">linkedin.com/in/mayank-jain-731325148</a>'],
+      hire: () => ['great choice.', 'tell me what you\'re building: <a href="mailto:mayankjainllrl@gmail.com?subject=Let%27s%20work%20together">mayankjainllrl@gmail.com</a>', '<span class="t-dim">I reply within a day.</span>'],
+      ls: () => ['values.txt  projects/  lab/  contact.md'],
+      pwd: () => ['/home/mayank'],
+      date: () => [new Date().toString()],
+      echo: (args) => [args.replace(/[<>&]/g, "")],
+      coffee: () => ['☕ brewing… 418 I\'m a teapot. try <span class="t-str">hire</span> instead.'],
+    };
+    function runCommand(raw) {
+      const input = raw.trim();
+      const safe = input.replace(/[<>&]/g, "");
+      let out;
+      const [cmd, ...rest] = input.split(/\s+/);
+      const c = (cmd || "").toLowerCase();
+      if (!input) out = [];
+      else if (c === "clear") { termOut.innerHTML = ""; return; }
+      else if (/^sudo\s+hire/i.test(input)) out = ['[sudo] password for recruiter: ********', '<span class="t-prompt">✓ permission granted.</span> best decision you\'ll make this quarter.', '→ <a href="mailto:mayankjainllrl@gmail.com?subject=Let%27s%20work%20together">mayankjainllrl@gmail.com</a>'];
+      else if (c === "sudo") out = ['nice try. permissions are least-privilege here.'];
+      else if (/^rm\s+-rf/.test(input)) out = ['<span style="color:var(--red)">denied.</span> this system fails closed. 🙂'];
+      else if (c === "cat" && /values/.test(rest.join(" "))) out = VALUES;
+      else if (COMMANDS[c]) out = COMMANDS[c](rest.join(" "));
+      else out = [`command not found: ${safe}. try <span class="t-str">help</span>`];
+      termOut.innerHTML += P + safe + "\n" + out.map((l) => l + "\n").join("");
+      scrollTerm();
+    }
+    const cmdHistory = []; let hi = 0;
+    termIn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const v = termIn.value; termIn.value = "";
+        if (v.trim()) { cmdHistory.push(v); hi = cmdHistory.length; }
+        runCommand(v);
+      } else if (e.key === "ArrowUp" && cmdHistory.length) {
+        hi = Math.max(0, hi - 1); termIn.value = cmdHistory[hi]; e.preventDefault();
+      } else if (e.key === "ArrowDown" && cmdHistory.length) {
+        hi = Math.min(cmdHistory.length, hi + 1); termIn.value = cmdHistory[hi] || ""; e.preventDefault();
+      }
+    });
+    term.addEventListener("click", (e) => { if (!termLine.hidden && e.target.tagName !== "A") termIn.focus({ preventScroll: true }); });
+
+    // reveal + count-up
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add("in");
+        en.target.querySelectorAll(".count").forEach((el) => {
+          const to = +el.dataset.to;
+          if (reduced) { el.textContent = to.toLocaleString("en-US"); return; }
+          const start = performance.now(), dur = 1400;
+          const step = (t) => {
+            const p = Math.min((t - start) / dur, 1);
+            el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))).toLocaleString("en-US");
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        });
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+    // lab tabs
+    document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === t));
+      document.querySelectorAll(".exp").forEach((x) => x.classList.toggle("on", x.id === t.dataset.exp));
+    }));
+
+    function addLog(logId, cls, text) {
+      const log = $(logId);
+      const empty = log.querySelector(".empty");
+      if (empty) empty.remove();
+      const div = document.createElement("div");
+      div.className = cls;
+      div.textContent = text;
+      log.prepend(div);
+    }
+    function resetLog(logId, msg) { $(logId).innerHTML = msg ? `<div class="empty">${msg}</div>` : ""; }
+
+    // 1. idempotency
+    let clicks = 0, badTotal = 0, goodTotal = 0;
+    $("pay").addEventListener("click", () => {
+      clicks++;
+      const ms = Math.floor(Math.random() * 40) + 120;
+      badTotal += 100;
+      addLog("badLog", clicks === 1 ? "ok" : "err", `#${clicks}  201 created  ch_${(Math.random() * 1e6 | 0).toString(16)}  −$100  (${ms}ms)`);
+      if (clicks === 1) {
+        goodTotal = 100;
+        addLog("goodLog", "ok", `#${clicks}  201 created  ch_8f2a1  −$100  (${ms}ms)`);
+      } else {
+        addLog("goodLog", "calm", `#${clicks}  200 replayed  ch_8f2a1  same key, no new charge`);
+      }
+      $("badTotal").textContent = "$" + badTotal;
+      $("goodTotal").textContent = "$" + goodTotal;
+      $("payVerdict").innerHTML = clicks === 1
+        ? "One click, one charge. Now click again, fast, like a user on a bad network."
+        : `Customer clicked <b>${clicks}×</b>. Naive backend charged <b style="color:var(--red)">$${badTotal}</b>. Idempotent backend charged <b style="color:var(--green)">$${goodTotal}</b>. That difference is a refund, a support ticket and a customer who doesn't come back.`;
+    });
+    $("payReset").addEventListener("click", () => {
+      clicks = 0; badTotal = 0; goodTotal = 0;
+      resetLog("badLog", "waiting for requests…"); resetLog("goodLog", "waiting for requests…");
+      $("badTotal").textContent = "$0"; $("goodTotal").textContent = "$0"; $("payVerdict").textContent = "";
+    });
+
+    // 2. signatures (real SHA-256 when available)
+    async function sha256(text) {
+      if (window.crypto && crypto.subtle) {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+        return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+      let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+      for (let i = 0; i < text.length; i++) {
+        const c = text.charCodeAt(i);
+        h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677);
+      }
+      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+      h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+      return ((h2 >>> 0).toString(16).padStart(8, "0") + (h1 >>> 0).toString(16).padStart(8, "0")).repeat(4);
+    }
+    let signedHash = null;
+    const doc = $("doc");
+    const short = (h) => h.slice(0, 20) + "…";
+    async function checkDoc() {
+      if (!signedHash) return;
+      const now = await sha256(doc.value);
+      const ok = now === signedHash;
+      $("fpNow").textContent = short(now);
+      $("fpNow").className = ok ? "match" : "nomatch";
+      $("sigState").className = "status " + (ok ? "ok" : "err");
+      $("sigState").innerHTML = ok
+        ? "✓ <b>Signature valid.</b> The fingerprints match: this is exactly the document that was signed."
+        : "✗ <b>Rejected: the document was changed after signing.</b> The fingerprints no longer match.";
+      $("tamperBtn").textContent = doc.value.includes("$250,000.00") ? "② Undo the change" : "② Change the amount";
+    }
+    $("signBtn").addEventListener("click", async () => {
+      signedHash = await sha256(doc.value);
+      $("fpSigned").textContent = short(signedHash);
+      $("signBtn").textContent = "① Sign again";
+      checkDoc();
+    });
+    $("tamperBtn").addEventListener("click", () => {
+      if (!signedHash) {
+        $("sigState").className = "status warn";
+        $("sigState").innerHTML = "Sign it first, then try changing it.";
+        return;
+      }
+      doc.value = doc.value.includes("$250,000.00")
+        ? doc.value.replace("$250,000.00", "$25,000.00")
+        : doc.value.replace("$25,000.00", "$250,000.00");
+      checkDoc();
+    });
+    doc.addEventListener("input", checkDoc);
+
+    // 3. cents
+    const fmt = (c) => (c < 0 ? "−$" : "$") + (Math.abs(c) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function renderCents(amount, n) {
+      const totalC = Math.round(amount * 100);
+      const each = Math.round((amount / n) * 100);
+      let badRows = "", badSum = 0, goodRows = "", goodSum = 0;
+      const base = Math.floor(totalC / n), rem = totalC - base * n;
+      for (let i = 0; i < n; i++) {
+        badSum += each; badRows += `<tr><td>person ${i + 1}</td><td>${fmt(each)}</td></tr>`;
+        const c = base + (i < rem ? 1 : 0);
+        goodSum += c; goodRows += `<tr><td>person ${i + 1}</td><td>${fmt(c)}${i < rem ? ' <span class="t-dim">+1¢</span>' : ""}</td></tr>`;
+      }
+      const diff = badSum - totalC;
+      const badColor = diff === 0 ? "var(--green)" : "var(--red)";
+      $("badSplit").innerHTML = badRows + `<tr class="total"><td>total paid out</td><td style="color:${badColor}">${fmt(badSum)}</td></tr><tr><td class="t-dim">money available</td><td class="t-dim">${fmt(totalC)}</td></tr>`;
+      $("goodSplit").innerHTML = goodRows + `<tr class="total"><td>total paid out</td><td style="color:var(--green)">${fmt(goodSum)}</td></tr><tr><td class="t-dim">money available</td><td class="t-dim">${fmt(totalC)}</td></tr>`;
+      $("centVerdict").innerHTML = diff > 0
+        ? `Rounding each share paid out <b style="color:var(--red)">${fmt(diff)} more than existed</b>. Do that across thousands of payouts and the account goes negative. Whole cents add up to exactly <b style="color:var(--green)">${fmt(totalC)}</b>.`
+        : diff < 0
+          ? `Rounding each share <b style="color:var(--red)">lost ${fmt(-diff)}</b>. It's still in the account, but nobody's books say where. Whole cents add up to exactly <b style="color:var(--green)">${fmt(totalC)}</b>.`
+          : `This split happens to divide evenly. Try another one.`;
+    }
+    document.querySelectorAll(".pick").forEach((b) => b.addEventListener("click", () => {
+      document.querySelectorAll(".pick").forEach((x) => x.classList.toggle("on", x === b));
+      renderCents(+b.dataset.a, +b.dataset.n);
+    }));
+    renderCents(200, 3);
+
+    // 4. fail-closed gate
+    function payout(down) {
+      if (down) {
+        $("openState").className = "status err";
+        $("openState").innerHTML = "Check timed out → treated as OK →<br><b>$10,000 SENT to someone nobody checked.</b>";
+        $("closedState").className = "status warn";
+        $("closedState").innerHTML = "Check timed out →<br><b>$10,000 HELD.</b> Flagged for a person to review.";
+        $("gateVerdict").innerHTML = "Same outage, opposite outcomes. The typical system paid an <b>unscreened</b> person, which is a legal problem. Mine kept the money until a person could look.";
+      } else {
+        $("openState").className = "status ok";
+        $("openState").innerHTML = "Check passed →<br><b>$10,000 sent.</b>";
+        $("closedState").className = "status ok";
+        $("closedState").innerHTML = "Check passed →<br><b>$10,000 sent</b>, with an audit record.";
+        $("gateVerdict").innerHTML = "On a normal day you can't tell them apart. Now press <b>Check service is down</b>.";
+      }
+    }
+    $("dayNormal").addEventListener("click", () => payout(false));
+    $("dayDown").addEventListener("click", () => payout(true));
+
+    // 5. promo race
+    $("raceBtn").addEventListener("click", async () => {
+      const btn = $("raceBtn"); btn.disabled = true;
+      resetLog("raceBadLog", ""); resetLog("raceGoodLog", "");
+      $("raceBadUses").textContent = "used 0 of 1"; $("raceGoodUses").textContent = "used 0 of 1";
+      $("raceVerdict").textContent = "";
+      const d = reduced ? 0 : 650;
+      const bad = [
+        ["calm", "1. Buyer 1 asks: any uses left? → yes"],
+        ["calm", "2. Buyer 2 asks: any uses left? → yes (nobody has used it yet)"],
+        ["ok", "3. Buyer 1 uses the code → 50% off"],
+        ["err", "4. Buyer 2 uses the code → 50% off. Used twice!"],
+      ];
+      const good = [
+        ["calm", "1. Buyer 1: use it if a use is left → done, in one step"],
+        ["calm", "2. Buyer 2: use it if a use is left → none left"],
+        ["ok", "3. Buyer 1 gets 50% off"],
+        ["warn", "4. Buyer 2 sees \"this code is used up\""],
+      ];
+      for (let i = 0; i < 4; i++) {
+        addLog("raceBadLog", bad[i][0], bad[i][1]);
+        addLog("raceGoodLog", good[i][0], good[i][1]);
+        if (i === 2) { $("raceBadUses").textContent = "used 1 of 1"; $("raceGoodUses").innerHTML = 'used <span style="color:var(--green)">1 of 1</span>'; }
+        if (i === 3) $("raceBadUses").innerHTML = 'used <span style="color:var(--red)">2 of 1</span>';
+        await sleep(d);
+      }
+      $("raceVerdict").innerHTML = "The typical code gave away a one-time discount <b style=\"color:var(--red)\">twice</b>. Checking and using in one step means exactly <b style=\"color:var(--green)\">one</b> buyer wins, however close the clicks are.";
+      btn.textContent = "Run it again →";
+      btn.disabled = false;
+    });
+
+    // 6. fallback chain
+    let mainUp = false;
+    $("mainSeg").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+      $("mainSeg").querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+      mainUp = b.dataset.v === "up";
+    }));
+    function blankCells(id) { $(id).innerHTML = Array.from({ length: 8 }, (_, i) => `<div>company ${i + 1}</div>`).join(""); }
+    blankCells("fbBadCells"); blankCells("fbGoodCells");
+    $("lookupBtn").addEventListener("click", async () => {
+      const btn = $("lookupBtn"); btn.disabled = true;
+      blankCells("fbBadCells"); blankCells("fbGoodCells");
+      let bad = 0, good = 0;
+      const bc = $("fbBadCells").children, gc = $("fbGoodCells").children;
+      for (let i = 0; i < 8; i++) {
+        if (mainUp) { bad++; bc[i].className = "hit"; bc[i].textContent = "✓ main"; }
+        else { bc[i].className = "miss"; bc[i].textContent = "✗ refused"; }
+        good++; gc[i].className = "hit"; gc[i].textContent = mainUp ? "✓ main" : "✓ backup";
+        $("fbBadScore").textContent = `${bad} of 8 found`; $("fbGoodScore").textContent = `${good} of 8 found`;
+        if (!reduced) await sleep(160);
+      }
+      $("fbVerdict").innerHTML = mainUp
+        ? "With the main service working, both find everything. The difference only shows on a bad day."
+        : `The main service refused every request: the one-service system found <b style="color:var(--red)">${bad} of 8</b>. Mine moved to a backup and found <b style="color:var(--green)">${good} of 8</b>, and logged why.`;
+      btn.disabled = false;
+    });
+
+    // AI pipeline
+    const steps = [
+      "An email arrives and the mail provider pushes an event instantly. Nothing polls, nothing idles, nothing costs money while it waits.",
+      "A container wakes on serverless AWS. Concurrency is pinned and retries are controlled, so the same message can never be processed twice. Every deploy is gated by 1,800+ tests and a health check.",
+      "The LLM reads the message and extracts structured data. If the provider has an outage, the run stops cleanly and retries later instead of losing work.",
+      "The system calls tools to research what it read. When one search provider refuses, the next takes over: 8 of 8 lookups succeed.",
+      "Extracted values are validated before anyone sees them, and anything uncertain is flagged instead of guessed.",
+      "A person gets a clean summary and makes the call. The AI does the reading; people make the decisions.",
+    ];
+    const nodes = [...document.querySelectorAll("#nodes .node")];
+    const packet = $("packet"), caption = $("caption");
+    let si = 0;
+    function showStep() {
+      nodes.forEach((n, i) => n.classList.toggle("on", i === si));
+      const node = nodes[si];
+      packet.style.left = (node.offsetLeft + node.offsetWidth / 2 - 6) + "px";
+      caption.innerHTML = `<b>step ${si + 1}/6</b>${steps[si]}`;
+      si = (si + 1) % steps.length;
+    }
+    showStep();
+    if (!reduced) setInterval(showStep, 3200);
+    window.addEventListener("resize", () => { si = (si + steps.length - 1) % steps.length; showStep(); });
+
+    // journey years
+    const yrs = [...document.querySelectorAll(".yr")];
+    function showYear(y) {
+      yrs.forEach((b) => b.classList.toggle("on", b.dataset.y === y));
+      document.querySelectorAll(".chapter").forEach((c) => c.classList.toggle("on", c.id === "y" + y));
+    }
+    yrs.forEach((b) => b.addEventListener("click", () => showYear(b.dataset.y)));
+    function stepYear(d) {
+      const i = yrs.findIndex((b) => b.classList.contains("on"));
+      const j = Math.max(0, Math.min(yrs.length - 1, i + d));
+      showYear(yrs[j].dataset.y);
+      const top = document.querySelector(".years").getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    }
+    $("prevYr").addEventListener("click", () => stepYear(-1));
+    $("nextYr").addEventListener("click", () => stepYear(1));
+
+    // active nav link
+    const links = [...document.querySelectorAll("nav a")];
+    const secs = links.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    window.addEventListener("scroll", () => {
+      let cur = null;
+      secs.forEach((s) => { if (s.getBoundingClientRect().top < 160) cur = s; });
+      links.forEach((a) => a.classList.toggle("active", cur && a.getAttribute("href") === "#" + cur.id));
+    });
+  </script>
+</body>
+</html>
